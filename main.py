@@ -1,7 +1,6 @@
 from fonction_de_base import *
 from TF_IDF import *
-
-
+from fonctionnalites import *
 
 president = []
 president_avec_numero = []
@@ -16,28 +15,57 @@ dictionnaire_nom_president = {
     "Sarkozy": "Nicolas"
 }
 
-# création du dictionnaire contenant les noms et prenoms des presidents
-occurence_president = {
-    "Chirac1": {},
-    "Chirac2": {},
-    "Giscard dEstaing": {},
-    "Hollande": {},
-    "Macron": {},
-    "Mitterrand1": {},
-    "Mitterrand2": {},
-    "Sarkozy": {}
-}
-occurence_president_copie = occurence_president
 if __name__ == '__main__':
     directory = "./speeches"
     files_names = list_of_files(directory, "txt")
     copie(files_names)
     president_names(files_names, president)
-    print(president)
-    president_names_fichier(files_names,president_avec_numero)
-    TF(occurence_president,files_names,president_avec_numero)
-    #print (occurence_president)
-    IDFdict = IDF(occurence_president)
-    #print(IDFdict)
-    TFIDF = TF_IDF(occurence_president,IDFdict,occurence_president_copie)
-    print(TFIDF)
+    president_names_fichier(files_names, president_avec_numero)
+    occurence_president = dico_mot_presidents(president_avec_numero)
+    occurence_president_2 = dico_mot_presidents(president_avec_numero)
+    TF1 = TF(occurence_president, files_names, president_avec_numero)
+
+    IDFdict = IDF(TF1)
+    # print(IDFdict)
+    TFIDF = TF_IDF(TF1, IDFdict, )
+    # print(TFIDF)
+
+    print("Veuillez choisir la fonction que vous voulez utiliser :\n"
+          , "1 :Affiche la liste des mots ayant le TF-IDF le plus bas dans l'ensemble des documents\n"
+          , "2 :Affiche la liste des mots ayant le TF-IDF le plus élevé dans l'ensemble des documents\n"
+          , "3 :Affiche les mots les plus répétés par le président Chirac\n"
+          ,
+          "4 :Affiche les noms du des présidents qui a ont parlé de la « Nation » et celui qui l’a répété le plus de fois\n"
+          , "5 :Affiche les présidents qui ont parler du climat et/ou de l’écologie\n"
+          , "6 :Affiche les mots que tout les presidents ont évoquer\n")
+    fonctionchoisie = int(input())
+    while fonctionchoisie < 1 or fonctionchoisie > 6:
+        print("cette fonction n'existe pas, choisi en une autre")
+        fonctionchoisie = int(input())
+
+    if fonctionchoisie == 1:
+        TFIDFmoyen = moyenne(TFIDF)
+        TFIDFmoyencroissant = moinsimportant(TFIDFmoyen)
+        print(TFIDFmoyencroissant)
+
+    if fonctionchoisie == 2:
+        TFIDFmoyen = moyenne(TFIDF)
+        TFIDFmoyendecroissant = plusimportant(TFIDFmoyen)
+        print(TFIDFmoyendecroissant)
+
+    if fonctionchoisie == 3:
+        TF2 = TF(occurence_president_2, files_names, president_avec_numero)
+        Chiracmot = chiracSaidIt(TF2)
+        print(Chiracmot)
+
+    if fonctionchoisie == 4:
+        presence_nation = mot_nation(TFIDF)
+        print(presence_nation)
+
+    if fonctionchoisie == 5:
+        listecologie = ecologie(TFIDF)
+        print(listecologie)
+
+    if fonctionchoisie == 6:
+        dis_par_tous = motsDisParTous(IDFdict)
+        print(dis_par_tous)
