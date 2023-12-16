@@ -55,4 +55,3 @@ def president_names(L, A):
             if "1" in A[b]:
                 A[b] = A[b][:-1]
             b += 1
-

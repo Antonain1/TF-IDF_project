@@ -20,6 +20,7 @@ def dico_mot_presidents(L):
 
 def TF(occurence, files, presidentnum):
     for i in range(len(files)):
+        #nombredemot = 0
         with open("cleaned/" + files[i], "r", encoding='utf-8') as f:
             mot = ""
             for line in f:
@@ -29,15 +30,22 @@ def TF(occurence, files, presidentnum):
                     else:
                         if mot in occurence[presidentnum[i]]:
                             occurence[presidentnum[i]][mot] += 1
+                            #nombredemot+=1
 
                         else:
                             occurence[presidentnum[i]][mot] = 1
+                            #nombredemot+=1
 
                         mot = ""
         for key in occurence[presidentnum[i]].keys():
             if key == '':
                 del occurence[presidentnum[i]][key]
+                #nombredemot -= 1
                 break
+        """
+        for key in occurence[presidentnum[i]].keys():
+            occurence[presidentnum[i]][key] = occurence[presidentnum[i]][key] /nombredemot
+        """
     return occurence
 
 
@@ -50,7 +58,7 @@ def IDF(occurence):
             else:
                 IDFdict[mot] += 1
     for key in IDFdict.keys():
-        IDFdict[key] = log((8 / IDFdict[key]) + 1, 10)
+        IDFdict[key] = log((8 / IDFdict[key]), 10)
     return IDFdict
 
 

@@ -1,5 +1,17 @@
 from math import *
 
+def motsDisParTous(IDF):
+    """
+    permet de renvoyer tous les mots dis par tous les présidents dans une liste
+    :param IDF: dictionnaire
+    :return:
+    """
+    present_partout = []
+    for key in IDF.keys():
+        if IDF[key] == 0:
+            present_partout.append(key)
+    return present_partout
+
 def moyenne(TFIDF):
     TFIDFmoyen = {}
     for mot in TFIDF["Chirac1"].keys():
@@ -25,7 +37,7 @@ def plusimportant(TFIDFmoyen):
         maxdejatrouvee.append(max)
     return TFIDFmoyendecroissant
 
-
+"""
 def moinsimportant(TFIDFmoyen):
     max = 0.1
     maxdejatrouvee = []
@@ -40,21 +52,26 @@ def moinsimportant(TFIDFmoyen):
                 TFIDFmoyencroissant[key] = TFIDFmoyen[key]
         maxdejatrouvee.append(max)
     return TFIDFmoyencroissant
+"""
 
-
-def chiracSaidIt(TF):
+def chiracSaidIt(TF,mot_dit_par_tous):
     """
     renvoit les mots qu'a le plus dit Chirac avec leur occurence
     :param TF: dictionnaire de dictionnaire
     :return: Chirac_decroissant
     """
     Chirac_decroissant = {}
-    Chirac = TF["Chirac1"]
+    Chirac = {}
+    for mot in TF["Chirac1"]:
+        if mot not in mot_dit_par_tous :
+                Chirac[mot] = TF["Chirac1"][mot]
     for mot in TF["Chirac2"]:
-        if mot in Chirac:
-            Chirac[mot] += TF["Chirac2"][mot]
-        else:
-            Chirac[mot] = TF["Chirac2"][mot]
+        if mot not in mot_dit_par_tous :
+            if mot in Chirac:
+                Chirac[mot] += TF["Chirac2"][mot]
+            else:
+                Chirac[mot] = TF["Chirac2"][mot]
+
 # trie par ordre décroissant de récurrence des mots utilisés par Chirac
     maxdejatrouvee = []
     max = 0.1
@@ -104,20 +121,9 @@ def ecologie(TFIDF):
                     listecologie.append(key)
     return listecologie
 
-
-
-
-def motsDisParTous(IDF):
-    """
-    permet de renvoyer tous les mots dis par tous les présidents dans une liste
-    :param IDF: dictionnaire
-    :return:
-    """
-    present_partout = []
+def mot_evoque_pas_par_tous(IDF) :
+    present_pas_partout = []
     for key in IDF.keys():
-        if IDF[key] == log(2, 10):
-            present_partout.append(key)
-    return present_partout
-
-
-
+        if IDF[key] != 0:
+            present_pas_partout.append(key)
+    return present_pas_partout
