@@ -1,16 +1,22 @@
 from math import *
 
 
-def president_names_fichier(L, A):
+def president_names_fichier(L: list, A: list):
+    """
+    permet d'obtenir une liste des noms des présidents
+    :param L: list
+    :param A: list
+    :return: /
+    """
     for i in range(len(L)):
         A.append(L[i][11:-4])
 
 
-def dico_mot_presidents(L):
+def dico_mot_presidents(L: list):
     """
     crée un dictionnaire de dictionnaire contenant les noms des présidents contenus dans speeches
-    :param L: liste
-    :return: dico
+    :param L: list
+    :return: dict
     """
     dico = {}
     for i in range(len(L)):
@@ -18,9 +24,15 @@ def dico_mot_presidents(L):
     return dico
 
 
-def TF(occurence, files, presidentnum):
+def TF(occurrence: dict, files: list, presidentnum: list):
+    """
+    TF par récurrence
+    :param occurrence: dict
+    :param files: list
+    :param presidentnum: list
+    :return: dict
+    """
     for i in range(len(files)):
-        #nombredemot = 0
         with open("cleaned/" + files[i], "r", encoding='utf-8') as f:
             mot = ""
             for line in f:
@@ -28,31 +40,30 @@ def TF(occurence, files, presidentnum):
                     if char != " " and char != "\n":
                         mot += char
                     else:
-                        if mot in occurence[presidentnum[i]]:
-                            occurence[presidentnum[i]][mot] += 1
-                            #nombredemot+=1
+                        if mot in occurrence[presidentnum[i]]:
+                            occurrence[presidentnum[i]][mot] += 1
 
                         else:
-                            occurence[presidentnum[i]][mot] = 1
-                            #nombredemot+=1
+                            occurrence[presidentnum[i]][mot] = 1
 
                         mot = ""
-        for key in occurence[presidentnum[i]].keys():
+        for key in occurrence[presidentnum[i]].keys():
             if key == '':
-                del occurence[presidentnum[i]][key]
-                #nombredemot -= 1
+                del occurrence[presidentnum[i]][key]
                 break
-        """
-        for key in occurence[presidentnum[i]].keys():
-            occurence[presidentnum[i]][key] = occurence[presidentnum[i]][key] /nombredemot
-        """
-    return occurence
+
+    return occurrence
 
 
-def IDF(occurence):
+def IDF(occurrence: dict):
+    """
+    permet de renvoyer l'IDF de chaque mot en se basant sur la formule donnée
+    :param occurrence: dict
+    :return: dict
+    """
     IDFdict = {}
-    for key in occurence:
-        for mot in occurence[key].keys():
+    for key in occurrence:
+        for mot in occurrence[key].keys():
             if mot not in IDFdict:
                 IDFdict[mot] = 1
             else:
@@ -62,7 +73,13 @@ def IDF(occurence):
     return IDFdict
 
 
-def TF_IDF(TF, IDF):
+def TF_IDF(TF: dict, IDF: dict):
+    """
+    permet de faire le TF-IDF en utilisant TF et IDF
+    :param TF: dict
+    :param IDF: dict
+    :return: dict
+    """
     TFIDF = TF
     TFIDFtriee = TF
     for key in TF:

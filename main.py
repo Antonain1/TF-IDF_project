@@ -27,41 +27,42 @@ if __name__ == '__main__':
     TF1 = TF(occurence_president, files_names, president_avec_numero)
 
     IDFdict = IDF(TF1)
-    # print(IDFdict)
     TFIDF = TF_IDF(TF1, IDFdict, )
-    #print(TFIDF)
+
     print(" appuyez sur 1 pour utiliser le chat bot\n"
-          ,"appuyez sur 2 pour utiliser les fonctions prédéfinies")
+          , "appuyez sur 2 pour utiliser les fonctions prédéfinies")
     chatbot_ou_predefini = int(input())
+    while not(1 <= chatbot_ou_predefini <= 2):
+        print(" appuyez sur 1 pour utiliser le chat bot\n"
+              , "appuyez sur 2 pour utiliser les fonctions prédéfinies")
+        chatbot_ou_predefini = int(input())
 
-
-    if chatbot_ou_predefini == 1 :
+    if chatbot_ou_predefini == 1:
         question = input("posez votre question : \n")
         liste_mot_question = fct_liste_mot_question(question)
-        mot_question_present =fct_mot_question_present_dans_IDF(IDFdict, liste_mot_question)
-        #print(mot_question_present)
-        TFIDF_question= fct_TFIDF_question(mot_question_present,IDFdict)
-        #print(TFIDF_question)
-        #print(TFIDF)
-        similarite_president =similarite_vect(TFIDF_question,TFIDF,president_avec_numero,files_names)
-        print(similarite_president)
-        mot_question_plus_important = fct_mot_question_plus_important(TFIDF_question)
-        print(mot_question_plus_important)
+        mot_question_present = fct_mot_question_present_dans_IDF(IDFdict, liste_mot_question)
 
-        reponse = fct_reponse(mot_question_plus_important,similarite_president)
+        TFIDF_question = fct_TFIDF_question(mot_question_present, IDFdict)
+        debut_reponse = fct_debut_reponse(question, TFIDF_question)
+
+        similarite_president = similarite_vect(TFIDF_question, TFIDF, president_avec_numero, files_names)
+
+        mot_question_plus_important = fct_mot_question_plus_important(TFIDF_question)
+
+        reponse = fct_reponse(mot_question_plus_important, similarite_president, debut_reponse)
         print(reponse)
-    if chatbot_ou_predefini == 2 :
+
+    if chatbot_ou_predefini == 2:
         print("Veuillez choisir la fonction que vous voulez utiliser :\n"
               , "1 :Affiche la liste des mots ayant le TF-IDF le plus bas dans l'ensemble des documents\n"
               , "2 :Affiche la liste des mots ayant le TF-IDF le plus élevé dans l'ensemble des documents\n"
               , "3 :Affiche les mots les plus répétés par le président Chirac\n"
-              ,
-              "4 :Affiche les noms du des présidents qui a ont parlé de la « Nation » et celui qui l’a répété le plus de fois\n"
+              , "4 :Affiche les noms du des présidents qui a ont parlé de la « Nation » et celui qui l’a répété le plus de fois\n"
               , "5 :Affiche les présidents qui ont parler du climat et/ou de l’écologie\n"
               , "6 :Affiche les mots que les presidents ont évoquer, exeptés ceux dit par tous\n")
         fonctionchoisie = int(input())
         while fonctionchoisie < 1 or fonctionchoisie > 7:
-            print("cette fonction n'existe pas, choisi en une autre")
+            print("cette fonction n'existe pas, choisis en une autre")
             fonctionchoisie = int(input())
 
         if fonctionchoisie == 1:
@@ -76,7 +77,7 @@ if __name__ == '__main__':
         if fonctionchoisie == 3:
             TF2 = TF(occurence_president_2, files_names, president_avec_numero)
             dis_par_tous = motsDisParTous(IDFdict)
-            Chiracmot = chiracSaidIt(TF2,dis_par_tous)
+            Chiracmot = chiracSaidIt(TF2, dis_par_tous)
             print(Chiracmot)
 
         if fonctionchoisie == 4:

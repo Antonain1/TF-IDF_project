@@ -2,11 +2,11 @@ import os
 
 
 # creation d une liste contenant les noms des fichiers
-def list_of_files(directory, extension):
+def list_of_files(directory: str, extension: str):
     """
     Permet de récupérer la liste des noms des fichiers contenus dans un dossier. On s'intéressera ici à 'speeches'
-    :param directory:
-    :param extension:
+    :param directory: str
+    :param extension: str
     :return: files_names
     """
     files_names = []
@@ -17,11 +17,11 @@ def list_of_files(directory, extension):
 
 
 # creation des doubles des fichiers + copie du contenu en miniscule sans ponctuation
-def copie(L):
+def copie(L: list):
     """
     Permet de mettre les fichiers sous le bon format : tout en minuscule sans ponctuation et les range dans un nouveau dossier appelé cleaned
-    :param L: liste
-    :return:
+    :param L: list
+    :return: /
     """
     for i in range(len(L)):
         fichier = open("cleaned/" + L[i], "w")
@@ -41,11 +41,11 @@ def copie(L):
 
 
 # extraction des noms des presidents+ affichage des noms
-def president_names(L, A):
+def president_names(L: list, A: list):
     """
     Crée une liste contenant tous les noms des présidents contenus dans speeches
-    :param L: liste
-    :param A: liste
+    :param L: list
+    :param A: list
     :return:
     """
     b = 0
