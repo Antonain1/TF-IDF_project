@@ -5,7 +5,7 @@ from chatbot import *
 
 president = []
 president_avec_numero = []
-
+print()
 # création du dictionnaire contenant les noms et prenoms des presidents
 dictionnaire_nom_president = {
     "Giscard dEstaing": "Valéry",
